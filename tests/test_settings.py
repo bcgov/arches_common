@@ -18,12 +18,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import os
 
-from arches_common.settings import *
+from bcgov_arches_common.settings import *
 
-PACKAGE_NAME = "arches_common"
+PACKAGE_NAME = "bcgov_arches_common"
 
 PROJECT_TEST_ROOT = os.path.dirname(__file__)
 MEDIA_ROOT = os.path.join(PROJECT_TEST_ROOT, "fixtures", "data")
+
+BCGOV_PROXY_PREFIX = "bcgov_arches_core/"
 
 BUSINESS_DATA_FILES = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -38,7 +40,7 @@ DATABASES = {
         "CONN_MAX_AGE": 0,
         "ENGINE": "django.contrib.gis.db.backends.postgis",
         "HOST": "localhost",
-        "NAME": "arches_common",
+        "NAME": "bcgov_arches_common",
         "OPTIONS": {},
         "PASSWORD": "postgis",
         "PORT": "5432",

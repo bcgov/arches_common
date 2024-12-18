@@ -11,9 +11,9 @@ env:
   ES_HOST: localhost
   ES_CERT_FILE: ""
   ES_API_KEY: ""
-  ELASTICSEARCH_PREFIX: arches_common
+  ELASTICSEARCH_PREFIX: bcgov_arches_common
   PGHOST: localhost
-  PGDBNAME: arches_common
+  PGDBNAME: bcgov_arches_common
   PGPASSWORD: postgis
   PGUSERNAME: postgres
 
@@ -27,7 +27,7 @@ jobs:
         image: postgis/postgis:13-3.0
         env:
           POSTGRES_PASSWORD: postgis
-          POSTGRES_DB: arches_common
+          POSTGRES_DB: bcgov_arches_common
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
@@ -57,7 +57,7 @@ jobs:
         uses: ./.github/actions/build-and-test-branch
         with:
           secrets: ${{ toJSON(secrets) }}
-          project-name: 'arches_common'
+          project-name: 'bcgov_arches_common'
           branch-type: 'target'
 
   build_feature_branch:
@@ -68,7 +68,7 @@ jobs:
         image: postgis/postgis:13-3.0
         env:
           POSTGRES_PASSWORD: postgis
-          POSTGRES_DB: arches_common
+          POSTGRES_DB: bcgov_arches_common
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
@@ -98,7 +98,7 @@ jobs:
         uses: ./.github/actions/build-and-test-branch
         with:
           secrets: ${{ toJSON(secrets) }}
-          project-name: 'arches_common'
+          project-name: 'bcgov_arches_common'
           branch-type: 'feature'
 
   check_frontend_coverage:

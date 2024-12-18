@@ -1,4 +1,4 @@
-# arches_common
+# bcgov_arches_common
 Common assets and functionality across all Arches business areas within BCGov
 
 # Welcome to the Arches Project!

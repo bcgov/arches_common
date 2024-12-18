@@ -1,6 +1,6 @@
 [run]
 source =
-    arches_common/
+    bcgov_arches_common/
 
 omit =
     */python?.?/*
