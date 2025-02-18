@@ -343,6 +343,32 @@ img.bc-details-image
     margin-left: 10px;
 }
 
+/* Vue schtuff */
+.bcgov-vue-mounting-point {
+   font-size: 0.8rem;
+}
+
+.bcgov-vertical-steps > .p-steplist {
+   flex-direction: column;
+   align-items: flex-start;
+}
+
+.bcgov-vertical-step-panels {
+   height:100%;
+   width: 100%;
+}
+
+.bcgov-main-content .p-panel {
+   background-color: var(--p-panel-background) !important;
+}
+
+.bcgov-stepper {
+   display: flex;
+   flex-direction: row;
+}
+
+/* End Vue schtuff */
+
 @media only screen and (min-width: 600px) {
     .print-only {
         display: none;
