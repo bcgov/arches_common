@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, inject } from "vue";
+import { computed, inject } from 'vue';
 // import { useRouter } from "vue-router";
-import { useGettext } from "vue3-gettext";
-import arches from "arches";
+import { useGettext } from 'vue3-gettext';
+import { arches } from '@/bcgov_arches_common/api.ts';
 
 // import { useToast } from "primevue/usetoast";
 // import { logout } from "@/bcrhp/api.ts";
@@ -11,10 +11,10 @@ import {
     // DEFAULT_ERROR_TOAST_LIFE,
     // ERROR,
     USER_KEY,
-} from "@/bcgov_arches_common/constants.ts";
+} from '@/bcgov_arches_common/constants.ts';
 // import { routeNames } from "@/bcrhp/routes.ts";
 
-import type { UserRefAndSetter } from "/types.ts";
+import type { UserRefAndSetter } from '@/bcgov_arches_common/types.ts';
 
 const { $gettext } = useGettext();
 // const toast = useToast();
@@ -39,15 +39,15 @@ const { user } = inject(USER_KEY) as UserRefAndSetter;
 // const loginUrl = computed(() => {return arches.urls.user_profile_manager;});
 const greeting = computed(() => {
     if (!user.value) {
-        return "";
+        return '';
     }
     if (user.value.first_name && user.value.last_name) {
-        return $gettext("Hello %{first} %{last}", {
+        return $gettext('Hello %{first} %{last}', {
             first: user.value.first_name,
             last: user.value.last_name,
         });
     } else {
-        return $gettext("Hello %{username}", { username: user.value.username });
+        return $gettext('Hello %{username}', { username: user.value.username });
     }
 });
 </script>
@@ -55,32 +55,22 @@ const greeting = computed(() => {
 <template>
     <div class="header-link">
         <span v-if="user">
-                      <router-link
-                          target="_blank"
-                          :to="arches.urls.user_profile_manager"
-                          style="text-decoration: none; color: inherit"
-                      >
-                          {{ greeting }}
-                      </router-link>
+            <router-link
+                target="_blank"
+                :to="arches.urls.user_profile_manager"
+                style="text-decoration: none; color: inherit"
+            >
+                {{ greeting }}
+            </router-link>
         </span>
-<!--        <Button-->
-<!--            style="margin-left: 1rem"-->
-<!--            @click="issueLogout"-->
-<!--        >-->
-<!--            {{ $gettext("Sign out") }}-->
-<!--        </Button>-->
+        <!--        <Button-->
+        <!--            style="margin-left: 1rem"-->
+        <!--            @click="issueLogout"-->
+        <!--        >-->
+        <!--            {{ $gettext("Sign out") }}-->
+        <!--        </Button>-->
     </div>
 </template>
 
-<style scoped>
-.header-link {
-  font-size: .61rem !important;
-}
-
-
-
-</style>
-<style>
-
-
-</style>
+<style scoped></style>
+<style></style>

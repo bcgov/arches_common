@@ -21,10 +21,13 @@
     "dependencies": {
         "arches": "github:bcgov/arches#v7.6.4.1_bcgov",
         "vue-router": "^4.4.3",
-        "primevue": "^4.2.5"
+        "primevue": "^4.2.5",
+        "vite": "latest"
     },
     "devDependencies": {
-        "arches-dev-dependencies": "archesproject/arches-dev-dependencies#stable/7.6.4"
+        "arches-dev-dependencies": "archesproject/arches-dev-dependencies#stable/7.6.4",
+        "eslint-plugin-prettier": "^5.2.3",
+        "@vue/eslint-config-prettier": "^10.2.0"
     },
     "nodeModulesPaths": {},
     "overrides": {

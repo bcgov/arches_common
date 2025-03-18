@@ -1,25 +1,23 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useGettext } from "vue3-gettext";
-import { RouteNamesType } from '@/bcgov_arches_common/routes.ts';
+import { ref } from 'vue';
+import { useGettext } from 'vue3-gettext';
+import { type RouteNamesType } from '@/bcgov_arches_common/routes.ts';
+import { type PropType } from 'vue';
 
 const props = defineProps({
-      "routeNames": {
-        "type": RouteNamesType,
-        "required": true
-      }
-    }
-);
-
-// import { routeNames } from "@/bcrhp/routes.ts";
+    routeNames: {
+        type: Object as PropType<RouteNamesType>,
+        required: true,
+    },
+});
 
 const { $gettext } = useGettext();
 
 const items = ref([
     {
-        icon: "fa fa-home",
-        routeName: props.routeNames.root,
-        linkName: $gettext("Home"),
+        icon: 'fa fa-home',
+        routeName: props.routeNames.home,
+        linkName: $gettext('Home'),
     },
 ]);
 </script>
@@ -55,12 +53,13 @@ const items = ref([
     background: var(--p-panel-background);
 }
 
-.p-button, .p-button:hover {
+.p-button,
+.p-button:hover {
     min-height: 3rem;
     min-width: 3rem;
     border-radius: 0;
     font-size: 1.5rem;
-    color: var(--p-primary-color)
+    color: var(--p-primary-color);
 }
 
 @media screen and (max-width: 960px) {

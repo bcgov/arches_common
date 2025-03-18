@@ -1,11 +1,11 @@
-import type { Ref } from "vue";
-import type { TreeNode } from "primevue/treenode";
+import type { Ref } from 'vue';
+import type { TreeNode } from 'primevue/treenode';
 // import type { Label } from "@/arches_vue_utils/types";
 
 // From arches_vue_utils in v8.0.x
 export interface Language {
     code: string;
-    default_direction: "ltr" | "rtl";
+    default_direction: 'ltr' | 'rtl';
     id: number;
     isdefault: boolean;
     name: string;

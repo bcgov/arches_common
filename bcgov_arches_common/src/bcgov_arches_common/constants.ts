@@ -1,11 +1,11 @@
-import type { InjectionKey, Ref } from "vue";
-import type { Language } from "@/bcgov_arches_common/types.ts";
-import type { Concept, UserRefAndSetter } from "@/bcgov_arches_common/types.ts";
+import type { InjectionKey, Ref } from 'vue';
+import type { Language } from '@/bcgov_arches_common/types.ts';
+import type { Concept, UserRefAndSetter } from '@/bcgov_arches_common/types.ts';
 
-export const ANONYMOUS = "anonymous";
-export const ERROR = "error";
-export const SECONDARY = "secondary";
-export const CONTRAST = "contrast";
+export const ANONYMOUS = 'anonymous';
+export const ERROR = 'error';
+export const SECONDARY = 'secondary';
+export const CONTRAST = 'contrast';
 
 export const DEFAULT_ERROR_TOAST_LIFE = 8000;
 export const SEARCH_RESULTS_PER_PAGE = 25;
@@ -18,10 +18,10 @@ export const selectedLanguageKey = Symbol() as InjectionKey<Ref<Language>>;
 export const systemLanguageKey = Symbol() as InjectionKey<Language>; // not reactive
 
 export const ENGLISH = {
-    code: "en",
-    default_direction: "ltr" as const,
+    code: 'en',
+    default_direction: 'ltr' as const,
     id: 1,
     isdefault: true,
-    name: "English",
-    scope: "system",
+    name: 'English',
+    scope: 'system',
 };
