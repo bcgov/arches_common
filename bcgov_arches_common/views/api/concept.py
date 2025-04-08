@@ -6,7 +6,7 @@ from arches.app.utils.response import JSONResponse
 
 class ConceptsForNode(View):
 
-    def get(self, graph_slug, node_alias):
+    def get(self, request, graph_slug, node_alias):
         node = models.Node.objects.get(graph__slug=graph_slug, alias=node_alias)
         if node.datatype != "concept" or "rdmCollection" not in node.config:
             return JSONResponse(
