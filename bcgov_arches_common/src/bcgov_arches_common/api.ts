@@ -10,7 +10,9 @@ export const arches = {
         api_logout: '',
         api_user: '/api/user/',
         api_search: '',
-        paged_dropdown: '',
+        dropdown: '/concepts/dropdown',
+        paged_dropdown: '/concepts/paged_dropdown',
+        api_concepts_for_node: '/api/concepts_for_node',
         api_bulk_disambiguated_resource_instance:
             '/api/bulk_disambiguated_resource_instance',
         api_card: '/cards/',
@@ -62,6 +64,20 @@ export const fetchSearchResults = async (
     const parsed = await response.json();
     if (!response.ok) throw new Error(parsed.message || response.statusText);
     return parsed;
+};
+
+export const getConceptsForNode = function (
+    graphSlug: string,
+    nodeAlias: string,
+    concepts: Ref,
+) {
+    fetch(
+        formatUrl(
+            `${arches.urls.api_concepts_for_node}/${graphSlug}/${nodeAlias}`,
+        ),
+    )
+        .then((response) => response.json())
+        .then((data) => (concepts.value = data));
 };
 
 export const fetchConcepts = function (concept_id: string, concepts: Ref) {
