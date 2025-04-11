@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref, type PropType, type Ref, useTemplateRef } from 'vue';
+import { onMounted, ref, useTemplateRef } from 'vue';
 import { getConceptsForNode } from '@/bcgov_arches_common/api.ts';
 import Select from 'primevue/select';
+import { type SelectChangeEvent } from 'primevue/select';
 
+const model = defineModel();
 const props = defineProps({
     graphSlug: { type: String, required: true },
     nodeAlias: { type: String, required: true },
-    modelValue: { type: Object as PropType<Ref>, required: true },
     id: { type: String, required: true },
     placeholder: { type: String, default: 'Select an option' },
 });
@@ -17,20 +18,26 @@ const options = ref([]);
 
 const conceptSelectField = useTemplateRef('conceptSelectField');
 
+// const getLabelForOption = function (optionId: string) {
+//     return options.value.find((option) => option.id === optionId)?.text;
+// };
+
 onMounted(() => {
     getConceptsForNode(props.graphSlug, props.nodeAlias, options);
 });
 
-const valueUpdated = function (newValue: Object) {
-    emit('valueUpdated', newValue, conceptSelectField.value);
+const valueUpdated = function (event: SelectChangeEvent) {
+    emit('valueUpdated', event.value, conceptSelectField);
 };
+
+// defineExpose(getLabelForOption);
 </script>
 
 <template>
     <Select
-        :id="props.id"
-        v-model="props.modelValue"
         ref="conceptSelectField"
+        v-model="model"
+        :input-id="props.id"
         option-label="text"
         option-value="id"
         :placeholder="props.placeholder"
@@ -39,8 +46,8 @@ const valueUpdated = function (newValue: Object) {
         aria-required="true"
         fluid
         class="w-full md:w-14rem"
-        @update:model-value="valueUpdated"
-        @value-change="valueUpdated"
+        size="small"
+        @change="valueUpdated"
     />
 </template>
 
