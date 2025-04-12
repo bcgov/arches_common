@@ -4,7 +4,6 @@ import { getConceptsForNode } from '@/bcgov_arches_common/api.ts';
 import RadioButton from 'primevue/radiobutton';
 import RadioButtonGroup from 'primevue/radiobuttongroup';
 
-
 const model = defineModel();
 const props = defineProps({
     graphSlug: { type: String, required: true },
@@ -18,10 +17,6 @@ const emit = defineEmits(['valueUpdated']);
 
 const options = ref([]);
 
-onMounted(() => {
-    getConceptsForNode(props.graphSlug, props.nodeAlias, options);
-});
-
 const valueUpdated = function (event: Event) {
     emit('valueUpdated', event.target.value, event.target);
 };
@@ -29,14 +24,17 @@ const valueUpdated = function (event: Event) {
 const flexDirection = computed(() => {
     return props.groupDirection === 'column' ? 'flex-col' : 'flex-row gap-2';
 });
+
+onMounted(() => {
+    getConceptsForNode(props.graphSlug, props.nodeAlias, options);
+});
 </script>
 
 <template>
     <RadioButtonGroup
         v-model="model"
         name="id"
-        class="flex flex-wrap"
-        :class="flexDirection"
+        :class="['flex flex-wrap', flexDirection]"
     >
         <div
             v-for="option in options"
