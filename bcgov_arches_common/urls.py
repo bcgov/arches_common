@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 from django.urls import include, path
 from bcgov_arches_common.views.api.concept import ConceptsForNode
+from bcgov_arches_common.views.api import user as api_user
 
 urlpatterns = [
     path(
@@ -10,6 +11,7 @@ urlpatterns = [
         ConceptsForNode.as_view(),
         name="concepts_for_node",
     ),
+    path("api/user/", api_user.UserView.as_view(), name="api_user"),
 ]
 
 # Adds URL pattern to serve media files during development
