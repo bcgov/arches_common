@@ -8,7 +8,10 @@ class ConceptsForNode(View):
 
     def get(self, request, graph_slug, node_alias):
         node = models.Node.objects.get(graph__slug=graph_slug, alias=node_alias)
-        if node.datatype != "concept" or "rdmCollection" not in node.config:
+        if (
+            not node.datatype.startswith("concept")
+            or "rdmCollection" not in node.config
+        ):
             return JSONResponse(
                 {
                     "error": f"Invalid node datatype",
