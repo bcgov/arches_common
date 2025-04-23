@@ -33,7 +33,7 @@ export function formatUrl(url: string) {
     return arches.prefix + arches.context_root + url;
 }
 
-function getToken() {
+export function getToken() {
     const token = Cookies.get('csrftoken');
     if (!token) {
         throw new Error('Missing csrftoken');

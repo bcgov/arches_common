@@ -4,7 +4,7 @@ import { getConceptsForNode } from '@/bcgov_arches_common/api.ts';
 import Select from 'primevue/select';
 import { type SelectChangeEvent } from 'primevue/select';
 
-const model = defineModel();
+const model = defineModel<string | number | Array<string | number>>();
 const props = defineProps({
     graphSlug: { type: String, required: true },
     nodeAlias: { type: String, required: true },

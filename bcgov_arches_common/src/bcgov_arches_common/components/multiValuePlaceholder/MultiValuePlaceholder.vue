@@ -4,7 +4,7 @@ import { ref, watch } from 'vue';
 const props = defineProps({
     label: { type: String, default: '' },
     showDeleteButton: { type: Boolean, default: true },
-    displayValues: { type: Array<String>, required: true },
+    displayValues: { type: Array<string>, required: true },
     deleteCallback: { type: Function, required: true },
 });
 
@@ -23,7 +23,7 @@ watch(
         <label>{{ props.label }} ({{ displayValues.length }})</label>
         <div
             v-for="(value, index) in displayValues"
-            key="value"
+            :key="value"
         >
             <div>
                 <div
@@ -59,5 +59,3 @@ watch(
     min-width: 2rem;
 }
 </style>
-
-<style></style>

@@ -4,7 +4,7 @@ import { getConceptsForNode } from '@/bcgov_arches_common/api.ts';
 import RadioButton from 'primevue/radiobutton';
 import RadioButtonGroup from 'primevue/radiobuttongroup';
 
-const model = defineModel();
+const model = defineModel<string | number>();
 const props = defineProps({
     graphSlug: { type: String, required: true },
     nodeAlias: { type: String, required: true },
