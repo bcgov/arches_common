@@ -18,7 +18,7 @@ const emit = defineEmits(['valueUpdated']);
 const options = ref([]);
 
 const valueUpdated = function (event: Event) {
-    emit('valueUpdated', event.target.value, event.target);
+    emit('valueUpdated', (event.target as HTMLButtonElement)?.value, event.target);
 };
 
 const flexDirection = computed(() => {
