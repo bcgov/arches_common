@@ -76,3 +76,36 @@ export interface SearchResultItem {
     }[];
     polyhierarchical: boolean;
 }
+
+export interface ConceptOption {
+    id: string;
+    text: string;
+}
+
+export interface ResourceOption {
+    resourceinstanceid: string;
+    label: string;
+}
+
+const resourceOption: ResourceOption = { resourceinstanceid: '', label: '' };
+
+export type ResourceOptionType = typeof resourceOption;
+
+export interface ResourceSearchResults {
+    'paging-filter': object;
+    'total-hits': number;
+    results: Array<ResourceOption>;
+}
+
+const resourceSearchResults: ResourceSearchResults = {
+    'paging-filter': {},
+    'total-hits': 0,
+    results: [],
+};
+
+export type ResourceSearchResultsType = typeof resourceSearchResults;
+
+export interface ConceptOption {
+    id: string;
+    text: string;
+}
