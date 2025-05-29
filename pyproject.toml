@@ -12,9 +12,9 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Framework :: Django",
     "Framework :: Django :: 4.2",
     "Intended Audience :: Developers",
@@ -22,9 +22,9 @@ classifiers = [
     "Intended Audience :: Information Technology",
     "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
-    "arches==7.6.9",
+    "arches==8.0.0a4",
     #"arches @ git+https://github.com/bcgov/arches.git@stable/7.6.3_bcgov_11578_11679_11689",
 ]
 version = "1.1.0-b0"
