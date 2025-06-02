@@ -1,10 +1,10 @@
-import $ from "jquery";
-import _ from "underscore";
-import ko from "knockout";
-import koMapping from "knockout-mapping";
-import SearchComponents from "search-components";
-import BaseManagerView from "views/base-manager";
-import ariaUtils from "utils/aria";
+import $ from 'jquery';
+import _ from 'underscore';
+import ko from 'knockout';
+import koMapping from 'knockout-mapping';
+import SearchComponents from 'search-components';
+import BaseManagerView from 'views/base-manager';
+import ariaUtils from 'utils/aria';
 
 ko.subscribable.fn.subscribeChanged = function (callback, context) {
     var savedValue = this.peek();
@@ -16,11 +16,11 @@ ko.subscribable.fn.subscribeChanged = function (callback, context) {
 };
 
 var getQueryObject = function () {
-    var query = _.chain(decodeURIComponent(location.search).slice(1).split("&"))
+    var query = _.chain(decodeURIComponent(location.search).slice(1).split('&'))
         // Split each array item into [key, value]
         // ignore empty string if search is empty
         .map(function (item) {
-            if (item) return item.split("=");
+            if (item) return item.split('=');
         })
         // Remove undefined in the case the search is empty
         .compact()
@@ -35,7 +35,7 @@ var CommonSearchViewModel = function () {
     this.searchFilterVms = {};
     this.searchFilterConfigs = Object.values(SearchComponents);
     this.defaultSearchViewConfig = this.searchFilterConfigs.find(
-        (filter) => filter.type == "search-view",
+        (filter) => filter.type == 'search-view',
     );
     this.searchViewComponentName = ko.observable(false);
     this.getFilter = function (filterName, unwrap = true) {
@@ -67,8 +67,8 @@ var CommonSearchViewModel = function () {
         return res;
     }, this);
     this.query = ko.observable(getQueryObject());
-    if (this.query()["search-view"] !== undefined) {
-        this.searchViewComponentName(this.query()["search-view"]);
+    if (this.query()['search-view'] !== undefined) {
+        this.searchViewComponentName(this.query()['search-view']);
     } else {
         this.searchViewComponentName(
             this.defaultSearchViewConfig.componentname,

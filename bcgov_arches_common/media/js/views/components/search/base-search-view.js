@@ -1,15 +1,15 @@
-import $ from "jquery";
-import _ from "underscore";
-import ko from "knockout";
-import template from "templates/views/components/functions/unique-boolean-value.htm";
-import BackBone from "backbone";
-import arches from "arches";
-import AlertViewModel from "viewmodels/alert";
-import Cookies from "js-cookie";
+import $ from 'jquery';
+import _ from 'underscore';
+import ko from 'knockout';
+import template from 'templates/views/components/functions/unique-boolean-value.htm';
+import BackBone from 'backbone';
+import arches from 'arches';
+import AlertViewModel from 'viewmodels/alert';
+import Cookies from 'js-cookie';
 
 export default Backbone.View.extend({
     constructor: function () {
-        this.name = "Base Search View";
+        this.name = 'Base Search View';
         this.filter = {};
         this.defaultQuery = {};
         Backbone.View.apply(this, arguments);
@@ -58,24 +58,24 @@ export default Backbone.View.extend({
         var request_type =
             arches.urls.search_results.length +
                 $.param(this.sharedStateObject.queryString())
-                    .split("+")
-                    .join("%20").length <
+                    .split('+')
+                    .join('%20').length <
             maxUrlLength
-                ? "GET"
-                : "POST";
+                ? 'GET'
+                : 'POST';
 
         self.updateRequest = $.ajax({
             type: request_type,
             url: arches.urls.search_results,
             data: _.extend(queryObj, {
-                csrfmiddlewaretoken: Cookies.get("csrftoken"),
+                csrfmiddlewaretoken: Cookies.get('csrftoken'),
             }),
             context: this,
             success: function (response) {
                 _.each(
                     this.sharedStateObject.searchResults,
                     function (value, key, results) {
-                        if (key !== "timestamp") {
+                        if (key !== 'timestamp') {
                             delete this.sharedStateObject.searchResults[key];
                         }
                     },
@@ -84,7 +84,7 @@ export default Backbone.View.extend({
                 _.each(
                     response,
                     function (value, key, response) {
-                        if (key !== "timestamp") {
+                        if (key !== 'timestamp') {
                             this.sharedStateObject.searchResults[key] = value;
                         }
                     },
@@ -101,22 +101,22 @@ export default Backbone.View.extend({
             },
             error: function (response, status, error) {
                 const alert = new AlertViewModel(
-                    "ep-alert-red",
+                    'ep-alert-red',
                     arches.translations.requestFailed.title,
                     response.responseJSON?.message,
                 );
-                if (self.updateRequest.statusText !== "abort") {
+                if (self.updateRequest.statusText !== 'abort') {
                     this.alert(alert);
                 }
                 this.sharedStateObject.loading(false);
             },
             complete: function (request, status) {
                 self.updateRequest = undefined;
-                if (request_type === "GET") {
+                if (request_type === 'GET') {
                     window.history.pushState(
                         {},
-                        "",
-                        "?" + $.param(queryObj).split("+").join("%20"),
+                        '',
+                        '?' + $.param(queryObj).split('+').join('%20'),
                     );
                 }
                 this.sharedStateObject.loading(false);

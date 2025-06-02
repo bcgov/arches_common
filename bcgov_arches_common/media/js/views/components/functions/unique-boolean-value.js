@@ -1,10 +1,10 @@
-import $ from "jquery";
-import ko from "knockout";
-import FunctionViewModel from "viewmodels/function-view-model";
-import template from "templates/views/components/functions/unique-boolean-value.htm";
+import $ from 'jquery';
+import ko from 'knockout';
+import FunctionViewModel from 'viewmodels/function-view-model';
+import template from 'templates/views/components/functions/unique-boolean-value.htm';
 
 export default ko.components.register(
-    "views/components/functions/unique-boolean-value",
+    'views/components/functions/unique-boolean-value',
     {
         viewModel: function (params) {
             FunctionViewModel.apply(this, arguments);
@@ -14,7 +14,7 @@ export default ko.components.register(
             this.loading = ko.observable(false);
 
             this.graph.nodes.forEach(function (card) {
-                if (card.datatype === "boolean") {
+                if (card.datatype === 'boolean') {
                     sortedCards.push(card);
                     nodegroups[card.nodeid] = true;
                 }
@@ -30,7 +30,7 @@ export default ko.components.register(
             this.node_id = params.config.node_id;
             this.node_id.subscribe(function (newValue) {
                 this.node_id(newValue);
-                console.log("New value: " + newValue);
+                console.log('New value: ' + newValue);
                 this.graph.nodes.forEach(function (node) {
                     if (node.nodeid == newValue) {
                         this.triggering_nodegroups([node.nodegroup_id]);
@@ -39,7 +39,7 @@ export default ko.components.register(
             }, this);
 
             window.setTimeout(function () {
-                $("select[data-bind^=chosen]").trigger("chosen:updated");
+                $('select[data-bind^=chosen]').trigger('chosen:updated');
             }, 300);
         },
         template: template,

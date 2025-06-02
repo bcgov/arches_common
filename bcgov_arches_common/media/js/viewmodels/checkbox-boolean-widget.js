@@ -1,5 +1,5 @@
-import ko from "knockout";
-import WidgetViewModel from "viewmodels/widget";
+import ko from 'knockout';
+import WidgetViewModel from 'viewmodels/widget';
 /**
  * A viewmodel used for boolean checkbox widgets
  *

@@ -1,12 +1,12 @@
-import $ from "jquery";
-import _ from "underscore";
-import ko from "knockout";
-import arches from "arches";
-import Cookies from "js-cookie";
-import moment from "moment";
-import searchExportTemplate from "templates/views/components/search/search-export.htm";
+import $ from 'jquery';
+import _ from 'underscore';
+import ko from 'knockout';
+import arches from 'arches';
+import Cookies from 'js-cookie';
+import moment from 'moment';
+import searchExportTemplate from 'templates/views/components/search/search-export.htm';
 
-var componentName = "search-export";
+var componentName = 'search-export';
 const viewModel = function (sharedStateObject) {
     var self = this;
 
@@ -15,7 +15,7 @@ const viewModel = function (sharedStateObject) {
     this.selectedPopup = sharedStateObject.selectedPopup;
     this.downloadStarted = ko.observable(false);
     this.reportlink = ko.observable(false);
-    this.format = ko.observable("tilecsv");
+    this.format = ko.observable('tilecsv');
     this.precision = ko.observable(6);
     this.result = ko.observable();
     this.emailInput = ko.observable(arches.userEmail);
@@ -26,12 +26,12 @@ const viewModel = function (sharedStateObject) {
     );
     this.downloadPending = ko.observable(false);
     this.hasResourceTypeFilter = ko.observable(
-        !!sharedStateObject.query()["resource-type-filter"],
+        !!sharedStateObject.query()['resource-type-filter'],
     );
     this.exportSystemValues = ko.observable(false);
 
     this.query.subscribe(function (val) {
-        if (val["resource-type-filter"]) {
+        if (val['resource-type-filter']) {
             self.hasResourceTypeFilter(true);
         } else {
             self.hasResourceTypeFilter(false);
@@ -40,7 +40,7 @@ const viewModel = function (sharedStateObject) {
 
     this.hasResourceTypeFilter.subscribe(function (val) {
         if (!val) {
-            self.format("tilecsv");
+            self.format('tilecsv');
         }
     });
 
@@ -52,15 +52,15 @@ const viewModel = function (sharedStateObject) {
         urlparams.precision = self.precision();
         urlparams.total = self.total();
         urlparams.exportsystemvalues = self.exportSystemValues();
-        url = url + "?" + $.param(urlparams);
+        url = url + '?' + $.param(urlparams);
         return url;
     });
 
     this.geojsonUrl = ko.pureComputed(function () {
-        if (ko.unwrap(self.format()) === "geojson") {
+        if (ko.unwrap(self.format()) === 'geojson') {
             var exportPath = self
                 .url()
-                .replace("search/export_results", "api/search/export_results");
+                .replace('search/export_results', 'api/search/export_results');
             return window.location.origin + exportPath;
         } else {
             return null;
@@ -76,16 +76,16 @@ const viewModel = function (sharedStateObject) {
         payload.precision = this.precision();
         payload.total = this.total();
         payload.email = this.emailInput();
-        payload.exportName = this.exportName() || "Arches Export";
+        payload.exportName = this.exportName() || 'Arches Export';
         payload.exportsystemvalues = this.exportSystemValues();
 
         const urlLength = (
             window.location.origin +
             arches.urls.export_results +
-            "?" +
+            '?' +
             $.param(payload)
         ).length;
-        const requestType = urlLength > maxUrlLength ? "POST" : "GET";
+        const requestType = urlLength > maxUrlLength ? 'POST' : 'GET';
         $.ajax({
             type: requestType,
             url: arches.urls.export_results,
@@ -117,19 +117,19 @@ const viewModel = function (sharedStateObject) {
         urlparams.precision = self.precision();
         urlparams.total = self.total();
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", url);
-        xhr.responseType = "blob";
-        xhr.setRequestHeader("X-CSRFToken", Cookies.get("csrftoken"));
+        xhr.open('POST', url);
+        xhr.responseType = 'blob';
+        xhr.setRequestHeader('X-CSRFToken', Cookies.get('csrftoken'));
         xhr.send(this.objectToFormData(urlparams));
         xhr.onload = function (event) {
             const blob = xhr.response;
             const timestamp = moment()
                 .format()
                 .slice(0, 19)
-                .replace("T", "_")
-                .replaceAll(":", "");
+                .replace('T', '_')
+                .replaceAll(':', '');
             const fileName = `${timestamp}_BCRHP_Export.zip`;
-            let link = document.createElement("a");
+            let link = document.createElement('a');
             link.href = window.URL.createObjectURL(blob);
             link.download = fileName;
             link.click();
@@ -137,7 +137,7 @@ const viewModel = function (sharedStateObject) {
     };
 
     this.executeExport = function (limit) {
-        if (ko.unwrap(self.format()) === "geojson" && this.total() <= limit) {
+        if (ko.unwrap(self.format()) === 'geojson' && this.total() <= limit) {
             window.open(this.geojsonUrl());
         } else if (this.total() > limit) {
             this.getExportData();

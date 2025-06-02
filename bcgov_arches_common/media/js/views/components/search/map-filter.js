@@ -1,22 +1,22 @@
-import $ from "jquery";
-import _ from "underscore";
-import ko from "knockout";
-import arches from "arches";
+import $ from 'jquery';
+import _ from 'underscore';
+import ko from 'knockout';
+import arches from 'arches';
 
-import BaseFilter from "views/components/search/base-filter";
-import mapFilterTemplate from "templates/views/components/search/map-filter.htm";
-import MapComponentViewModel from "views/components/map";
-import binFeatureCollection from "views/components/widgets/map/bin-feature-collection";
-import GraphModel from "models/graph";
-import * as turf from "turf";
-import geohash from "geohash";
-import geojsonExtent from "geojson-extent";
-import uuid from "uuid";
-import geojsonhint from "geojsonhint";
-import mapbox from "mapbox-gl";
-import mbdraw from "mapbox-gl-draw";
+import BaseFilter from 'views/components/search/base-filter';
+import mapFilterTemplate from 'templates/views/components/search/map-filter.htm';
+import MapComponentViewModel from 'views/components/map';
+import binFeatureCollection from 'views/components/widgets/map/bin-feature-collection';
+import GraphModel from 'models/graph';
+import * as turf from 'turf';
+import geohash from 'geohash';
+import geojsonExtent from 'geojson-extent';
+import uuid from 'uuid';
+import geojsonhint from 'geojsonhint';
+import mapbox from 'mapbox-gl';
+import mbdraw from 'mapbox-gl-draw';
 
-var componentName = "map-filter";
+var componentName = 'map-filter';
 const viewModel = BaseFilter.extend({
     initialize: function (options) {
         var self = this;
@@ -37,15 +37,15 @@ const viewModel = BaseFilter.extend({
         //     self.map.valueHasMutated();
         // }
 
-        options.name = "Map Filter";
+        options.name = 'Map Filter';
         BaseFilter.prototype.initialize.call(this, options);
 
         options.sources = {
-            "geojson-search-buffer-data": {
-                type: "geojson",
+            'geojson-search-buffer-data': {
+                type: 'geojson',
                 generateId: true,
                 data: {
-                    type: "FeatureCollection",
+                    type: 'FeatureCollection',
                     features: [],
                 },
             },
@@ -53,45 +53,45 @@ const viewModel = BaseFilter.extend({
 
         options.layers = ko.observable([
             {
-                id: "geojson-search-buffer-outline-base",
-                source: "geojson-search-buffer-data",
-                type: "line",
-                filter: ["==", "$type", "Polygon"],
+                id: 'geojson-search-buffer-outline-base',
+                source: 'geojson-search-buffer-data',
+                type: 'line',
+                filter: ['==', '$type', 'Polygon'],
                 layout: {
-                    "line-cap": "round",
-                    "line-join": "round",
+                    'line-cap': 'round',
+                    'line-join': 'round',
                 },
                 paint: {
-                    "line-color": "#fff",
-                    "line-width": 4,
+                    'line-color': '#fff',
+                    'line-width': 4,
                 },
             },
             {
-                id: "geojson-search-buffer-outline",
-                source: "geojson-search-buffer-data",
-                type: "line",
-                filter: ["==", "$type", "Polygon"],
+                id: 'geojson-search-buffer-outline',
+                source: 'geojson-search-buffer-data',
+                type: 'line',
+                filter: ['==', '$type', 'Polygon'],
                 layout: {
-                    "line-cap": "round",
-                    "line-join": "round",
+                    'line-cap': 'round',
+                    'line-join': 'round',
                 },
                 paint: {
-                    "line-color": "#3bb2d0",
-                    "line-width": 2,
+                    'line-color': '#3bb2d0',
+                    'line-width': 2,
                 },
             },
             {
-                id: "geojson-search-buffer",
-                type: "fill",
+                id: 'geojson-search-buffer',
+                type: 'fill',
                 layout: {
-                    visibility: "visible",
+                    visibility: 'visible',
                 },
                 paint: {
-                    "fill-color": "#3bb2d0",
-                    "fill-outline-color": "#3bb2d0",
-                    "fill-opacity": 0.2,
+                    'fill-color': '#3bb2d0',
+                    'fill-outline-color': '#3bb2d0',
+                    'fill-opacity': 0.2,
                 },
-                source: "geojson-search-buffer-data",
+                source: 'geojson-search-buffer-data',
             },
         ]);
 
@@ -115,32 +115,32 @@ const viewModel = BaseFilter.extend({
         this.geoJSONErrors = ko.observableArray();
         this.pageLoaded = false;
         this.maxBuffer = 100000;
-        this.maxBufferUnits = "m";
+        this.maxBufferUnits = 'm';
         this.maxZoom = arches.mapDefaultMaxZoom;
         this.filter.feature_collection = ko.observable({
-            type: "FeatureCollection",
+            type: 'FeatureCollection',
             features: [],
         });
 
         this.bufferUnits = [
             {
-                name: "meters",
-                val: "m",
+                name: 'meters',
+                val: 'm',
             },
             {
-                name: "feet",
-                val: "ft",
+                name: 'feet',
+                val: 'ft',
             },
         ];
 
         this.geometryOperations = [
             {
-                name: "Intersection",
-                val: "intersect",
+                name: 'Intersection',
+                val: 'intersect',
             },
             {
-                name: "Union",
-                val: "union",
+                name: 'Union',
+                val: 'union',
             },
         ];
 
@@ -177,9 +177,9 @@ const viewModel = BaseFilter.extend({
                 var geoJSON = JSON.parse(geoJSONString);
                 if (geoJSON.features.length > 1) {
                     hint.push({
-                        level: "warning",
+                        level: 'warning',
                         message:
-                            "Only one feature is allowed for search filtering.  Ignorning all all but the first feature.",
+                            'Only one feature is allowed for search filtering.  Ignorning all all but the first feature.',
                     });
                 }
                 var feature = geoJSON.features[0];
@@ -189,25 +189,25 @@ const viewModel = BaseFilter.extend({
                     try {
                         bufferWidth = parseInt(buffer.width, 10);
                         if (bufferWidth < 0 || bufferWidth > this.maxBuffer) {
-                            throw new Error("Whoops!");
+                            throw new Error('Whoops!');
                         }
                     } catch {
                         hint.push({
-                            level: "warning",
+                            level: 'warning',
                             message:
-                                "Buffer must be an integer between 0 and " +
+                                'Buffer must be an integer between 0 and ' +
                                 this.maxBuffer,
                         });
                     }
 
                     try {
                         var bufferUnit = buffer.unit;
-                        if (bufferUnit !== "ft" && bufferUnit !== "m") {
-                            throw new Error("Whoops!");
+                        if (bufferUnit !== 'ft' && bufferUnit !== 'm') {
+                            throw new Error('Whoops!');
                         }
                     } catch {
                         hint.push({
-                            level: "warning",
+                            level: 'warning',
                             message: 'Buffer unit must be either "ft" of "m"',
                         });
                     }
@@ -221,14 +221,14 @@ const viewModel = BaseFilter.extend({
                         feature.properties.geometryOperation;
                     try {
                         if (
-                            geometryOperation !== "intersect" &&
-                            geometryOperation !== "union"
+                            geometryOperation !== 'intersect' &&
+                            geometryOperation !== 'union'
                         ) {
-                            throw new Error("Whoops!");
+                            throw new Error('Whoops!');
                         }
                     } catch {
                         hint.push({
-                            level: "warning",
+                            level: 'warning',
                             message:
                                 'Group operation be either "intersect" or "union"',
                         });
@@ -240,11 +240,11 @@ const viewModel = BaseFilter.extend({
                     try {
                         bufferWidth = parseInt(buffer.width, 10);
                         if (inverted !== true && inverted !== false) {
-                            throw new Error("Whoops!");
+                            throw new Error('Whoops!');
                         }
                     } catch {
                         hint.push({
-                            level: "warning",
+                            level: 'warning',
                             message:
                                 'Property "inverted" must be the boolean "true" or "false" (no quotes)',
                         });
@@ -252,7 +252,7 @@ const viewModel = BaseFilter.extend({
                 }
             } finally {
                 hint.forEach(function (item) {
-                    if (item.level !== "message") {
+                    if (item.level !== 'message') {
                         errors.push(item);
                     }
                 });
@@ -262,44 +262,44 @@ const viewModel = BaseFilter.extend({
 
         this.spatialFilterTypes = [
             {
-                name: "Point",
-                title: "Draw a Marker",
-                class: "leaflet-draw-draw-marker",
-                icon: "ion-location",
-                drawMode: "draw_point",
+                name: 'Point',
+                title: 'Draw a Marker',
+                class: 'leaflet-draw-draw-marker',
+                icon: 'ion-location',
+                drawMode: 'draw_point',
                 active: ko.observable(false),
             },
             {
-                name: "Line",
-                title: "Draw a Polyline",
-                icon: "ion-steam",
-                class: "leaflet-draw-draw-polyline",
-                drawMode: "draw_line_string",
+                name: 'Line',
+                title: 'Draw a Polyline',
+                icon: 'ion-steam',
+                class: 'leaflet-draw-draw-polyline',
+                drawMode: 'draw_line_string',
                 active: ko.observable(false),
             },
             {
-                name: "Polygon",
-                title: "Draw a Polygon",
-                icon: "fa fa-pencil-square-o",
-                class: "leaflet-draw-draw-polygon",
-                drawMode: "draw_polygon",
+                name: 'Polygon',
+                title: 'Draw a Polygon',
+                icon: 'fa fa-pencil-square-o',
+                class: 'leaflet-draw-draw-polygon',
+                drawMode: 'draw_polygon',
                 active: ko.observable(false),
             },
             {
-                name: "Extent",
-                title: "Search by Map Extent",
-                icon: "fa fa-pencil-square-o",
-                class: "leaflet-draw-draw-polygon",
-                drawMode: "extent",
+                name: 'Extent',
+                title: 'Search by Map Extent',
+                icon: 'fa fa-pencil-square-o',
+                class: 'leaflet-draw-draw-polygon',
+                drawMode: 'extent',
                 active: ko.observable(false),
             },
         ];
 
-        this.drawModes = _.pluck(this.spatialFilterTypes, "drawMode");
+        this.drawModes = _.pluck(this.spatialFilterTypes, 'drawMode');
 
         this.selectedTool.subscribe(function (selectedDrawTool) {
             if (!!selectedDrawTool) {
-                if (selectedDrawTool === "extent") {
+                if (selectedDrawTool === 'extent') {
                     this.searchByExtent();
                 } else {
                     this.draw.changeMode(selectedDrawTool);
@@ -354,14 +354,14 @@ const viewModel = BaseFilter.extend({
          * set the feature as the sole geometry filter
          */
         this.filterByFeatureGeom = function (feature, addToFilter) {
-            if (feature.geometry.type === "Point" && this.buffer() === 0) {
+            if (feature.geometry.type === 'Point' && this.buffer() === 0) {
                 this.buffer(25);
             }
             if (!addToFilter) {
                 self.searchGeometries.removeAll();
                 this.draw.deleteAll();
                 this.draw.set({
-                    type: "FeatureCollection",
+                    type: 'FeatureCollection',
                     features: [feature],
                 });
                 self.searchGeometries([feature]);
@@ -373,7 +373,7 @@ const viewModel = BaseFilter.extend({
         };
 
         var updateSearchResultPointLayer = function () {
-            var pointSource = self.map().getSource("search-results-points");
+            var pointSource = self.map().getSource('search-results-points');
             var agg = ko.unwrap(self.searchAggregations);
             var features = [];
             var mouseoverInstanceId = self.mouseoverInstanceId();
@@ -400,7 +400,7 @@ const viewModel = BaseFilter.extend({
         this.updateSearchResultsLayers = function () {
             if (
                 self.filter.feature_collection() &&
-                self.filter.feature_collection()["features"].length > 0
+                self.filter.feature_collection()['features'].length > 0
             ) {
                 var geojsonFC = self.filter.feature_collection();
                 var extent = geojsonExtent(geojsonFC);
@@ -425,8 +425,8 @@ const viewModel = BaseFilter.extend({
             var aggregated = turf.collect(
                 ko.unwrap(bins),
                 pointsFC,
-                "doc_count",
-                "doc_count",
+                'doc_count',
+                'doc_count',
             );
             _.each(aggregated.features, function (feature) {
                 feature.properties.doc_count = _.reduce(
@@ -443,8 +443,8 @@ const viewModel = BaseFilter.extend({
                 agg: aggregated,
             };
 
-            var aggSource = self.map().getSource("search-results-hex");
-            var hashSource = self.map().getSource("search-results-hashes");
+            var aggSource = self.map().getSource('search-results-hex');
+            var hashSource = self.map().getSource('search-results-hashes');
             aggSource.setData(aggData.agg);
             hashSource.setData(aggData.points);
             updateSearchResultPointLayer();
@@ -507,7 +507,7 @@ const viewModel = BaseFilter.extend({
             modes: modes,
         });
         this.map().addControl(this.draw);
-        this.map().on("draw.create", function (e) {
+        this.map().on('draw.create', function (e) {
             /*
         self.draw.getAll().features.forEach(function(feature){
             if(feature.id !== e.features[0].id){
@@ -519,7 +519,7 @@ const viewModel = BaseFilter.extend({
             self.updateFilter();
             self.selectedTool(undefined);
         });
-        this.map().on("draw.update", function (e) {
+        this.map().on('draw.update', function (e) {
             let updatedGeoms = _.filter(
                 self.searchGeometries(),
                 function (geom) {
@@ -530,7 +530,7 @@ const viewModel = BaseFilter.extend({
             self.searchGeometries(updatedGeoms);
             self.updateFilter();
         });
-        this.map().on("draw.modechange", function (e) {
+        this.map().on('draw.modechange', function (e) {
             self.map().draw_mode = e.mode;
         });
     },
@@ -546,16 +546,16 @@ const viewModel = BaseFilter.extend({
         var lr = bounds.getSouthEast().toArray();
         var coordinates = [ll, ul, ur, lr, ll];
         var boundsFeature = {
-            type: "Feature",
+            type: 'Feature',
             properties: {},
             id: uuid.generate(),
             geometry: {
-                type: "Polygon",
+                type: 'Polygon',
                 coordinates: [coordinates],
             },
         };
         this.draw.set({
-            type: "FeatureCollection",
+            type: 'FeatureCollection',
             features: [boundsFeature],
         });
         this.searchGeometries([boundsFeature]);
@@ -565,10 +565,10 @@ const viewModel = BaseFilter.extend({
     showDetailsFromFilter: function (resourceinstanceid) {
         const url =
             arches.urls.search_results + `?id=${resourceinstanceid}&tiles=true`;
-        const searchResults = this.searchFilterVms["search-results"];
+        const searchResults = this.searchFilterVms['search-results'];
         const instanceCache =
             searchResults().bulkDisambiguatedResourceInstanceCache;
-        searchResults().selectedTab("search-result-details");
+        searchResults().selectedTab('search-result-details');
         searchResults().details.loading(true);
         if (!instanceCache()[resourceinstanceid]) {
             $.getJSON(url, (resp) => {
@@ -586,9 +586,9 @@ const viewModel = BaseFilter.extend({
                     );
                 } else {
                     // Otherwise load the details page directly
-                    console.log("Showing details from showDetailsFromFilter");
+                    console.log('Showing details from showDetailsFromFilter');
                     this.searchFilterVms[
-                        "search-results"
+                        'search-results'
                     ]().showResourceSummaryReport(result)();
                 }
             });
@@ -612,7 +612,7 @@ const viewModel = BaseFilter.extend({
                 var graphData = resp[graphId];
 
                 if (graphData.graph) {
-                    graphData["graphModel"] = new GraphModel({
+                    graphData['graphModel'] = new GraphModel({
                         data: graphData.graph,
                         datatypes: graphData.datatypes,
                     });
@@ -627,7 +627,7 @@ const viewModel = BaseFilter.extend({
 
     useMaxBuffer: function (unit, buffer, maxBuffer) {
         let res = false;
-        if (unit === "ft") {
+        if (unit === 'ft') {
             res = buffer * 0.3048 > maxBuffer;
         } else {
             res = buffer > maxBuffer;
@@ -646,7 +646,7 @@ const viewModel = BaseFilter.extend({
             this.maxBuffer,
         );
         if (useMaxBuffer) {
-            const max = this.bufferUnit() === "ft" ? 328084 : this.maxBuffer;
+            const max = this.bufferUnit() === 'ft' ? 328084 : this.maxBuffer;
             this.buffer(max);
         }
 
@@ -661,7 +661,7 @@ const viewModel = BaseFilter.extend({
             feature.properties.inverted = this.filter.inverted();
         }, this);
         this.filter.feature_collection({
-            type: "FeatureCollection",
+            type: 'FeatureCollection',
             operation: this.geometryOperation(),
             features: this.searchGeometries(),
         });
@@ -687,7 +687,7 @@ const viewModel = BaseFilter.extend({
                     !!feature.properties &&
                     Object.prototype.hasOwnProperty.call(
                         feature.properties,
-                        "inverted",
+                        'inverted',
                     )
                 ) {
                     this.filter.inverted(feature.properties.inverted);
@@ -706,7 +706,7 @@ const viewModel = BaseFilter.extend({
             },
             {
                 geom: {
-                    type: "FeatureCollection",
+                    type: 'FeatureCollection',
                     features: [],
                 },
             },
@@ -729,17 +729,17 @@ const viewModel = BaseFilter.extend({
         var queryObj = this.query();
         if (this.filter.feature_collection().features.length > 0) {
             if (
-                this.getFilterByType("term-filter-type").hasTag(this.type) ===
+                this.getFilterByType('term-filter-type').hasTag(this.type) ===
                 false
             ) {
-                this.getFilterByType("term-filter-type").addTag(
-                    "Map Filter Enabled",
+                this.getFilterByType('term-filter-type').addTag(
+                    'Map Filter Enabled',
                     this.name,
                     this.filter.inverted,
                 );
             }
             this.filter.feature_collection().features[0].properties[
-                "inverted"
+                'inverted'
             ] = this.filter.inverted();
             queryObj[componentName] = ko.toJSON(
                 this.filter.feature_collection(),
@@ -756,8 +756,8 @@ const viewModel = BaseFilter.extend({
     restoreState: function () {
         var query = this.query();
         var buffer = 10;
-        var bufferUnit = "m";
-        var geometryOperation = "union";
+        var bufferUnit = 'm';
+        var geometryOperation = 'union';
         var inverted = false;
         var hasSpatialFilter = false;
         if (componentName in query) {
@@ -770,7 +770,7 @@ const viewModel = BaseFilter.extend({
                 buffer = properties.buffer.width;
                 bufferUnit = properties.buffer.unit;
                 this.draw.set({
-                    type: "FeatureCollection",
+                    type: 'FeatureCollection',
                     features: mapQuery.features,
                 });
             }
@@ -786,8 +786,8 @@ const viewModel = BaseFilter.extend({
             .observable(inverted)
             .extend({ deferred: true });
         if (hasSpatialFilter) {
-            this.getFilterByType("term-filter-type").addTag(
-                "Map Filter Enabled",
+            this.getFilterByType('term-filter-type').addTag(
+                'Map Filter Enabled',
                 this.name,
                 this.filter.inverted,
             );
@@ -808,8 +808,8 @@ const viewModel = BaseFilter.extend({
         }
         if (!!this.searchResults[componentName]) {
             var buffer = this.searchResults[componentName].search_buffer;
-            this.map().getSource("geojson-search-buffer-data").setData({
-                type: "FeatureCollection",
+            this.map().getSource('geojson-search-buffer-data').setData({
+                type: 'FeatureCollection',
                 features: buffer,
             });
         }
@@ -817,15 +817,15 @@ const viewModel = BaseFilter.extend({
 
     clear: function (reset_features) {
         this.filter.feature_collection({
-            type: "FeatureCollection",
+            type: 'FeatureCollection',
             features: [],
         });
-        this.map().getSource("geojson-search-buffer-data").setData({
-            type: "FeatureCollection",
+        this.map().getSource('geojson-search-buffer-data').setData({
+            type: 'FeatureCollection',
             features: [],
         });
-        this.getFilterByType("term-filter-type").removeTag(
-            "Map Filter Enabled",
+        this.getFilterByType('term-filter-type').removeTag(
+            'Map Filter Enabled',
         );
         this.draw.deleteAll();
         this.searchGeometries([]);

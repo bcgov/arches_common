@@ -1,30 +1,30 @@
-import $ from "jquery";
-import _ from "underscore";
-import ko from "knockout";
-import koMapping from "knockout-mapping";
-import arches from "arches";
-import bootstrap from "bootstrap";
-import select2 from "select-woo";
-import ariaUtils from "utils/aria";
-import viewdata from "view-data";
-import BaseFilter from "views/components/search/base-filter";
-import mapFilterTemplate from "templates/views/components/search/map-filter.htm";
-import MapComponentViewModel from "views/components/map";
-import binFeatureCollection from "views/components/widgets/map/bin-feature-collection";
-import GraphModel from "models/graph";
-import searchResultsTemplate from "templates/views/components/search/search-results.htm";
-var componentName = "search-results";
+import $ from 'jquery';
+import _ from 'underscore';
+import ko from 'knockout';
+import koMapping from 'knockout-mapping';
+import arches from 'arches';
+import bootstrap from 'bootstrap';
+import select2 from 'select-woo';
+import ariaUtils from 'utils/aria';
+import viewdata from 'view-data';
+import BaseFilter from 'views/components/search/base-filter';
+import mapFilterTemplate from 'templates/views/components/search/map-filter.htm';
+import MapComponentViewModel from 'views/components/map';
+import binFeatureCollection from 'views/components/widgets/map/bin-feature-collection';
+import GraphModel from 'models/graph';
+import searchResultsTemplate from 'templates/views/components/search/search-results.htm';
+var componentName = 'search-results';
 export default ko.components.register(componentName, {
     viewModel: BaseFilter.extend({
         events: {
-            "click .related-resources-graph": "showRelatedResouresGraph",
-            "click .navigate-map": "zoomToFeature",
-            "mouseover .arches-search-item": "itemMouseover",
-            "mouseout .arches-search-item": "itemMouseout",
+            'click .related-resources-graph': 'showRelatedResouresGraph',
+            'click .navigate-map': 'zoomToFeature',
+            'mouseover .arches-search-item': 'itemMouseover',
+            'mouseout .arches-search-item': 'itemMouseout',
         },
 
         initialize: function (options) {
-            options.name = "Search Results";
+            options.name = 'Search Results';
             BaseFilter.prototype.initialize.call(this, options);
             this.results = ko.observableArray();
             this.showRelationships = ko.observable();
@@ -42,14 +42,14 @@ export default ko.components.register(componentName, {
             this.searchFilterVms[componentName](this);
             this.restoreState();
 
-            this.mapFilter = this.getFilterByType("map-filter-type", false);
+            this.mapFilter = this.getFilterByType('map-filter-type', false);
             this.mapFilter.subscribe((mapFilter) => {
                 if (mapFilter) {
                     this.mapFilter = mapFilter;
                 }
             }, this);
             this.selectedTab.subscribe(function (tab) {
-                if (tab === "map-filter-type") {
+                if (tab === 'map-filter-type') {
                     if (ko.unwrap(this.mapFilter.map)) {
                         this.mapFilter.map().resize();
                     }
@@ -65,24 +65,24 @@ export default ko.components.register(componentName, {
             var self = this;
             return function (resourceinstance) {
                 var resourceinstanceid =
-                    resourceinstance.resourceinstanceid || "";
+                    resourceinstance.resourceinstanceid || '';
                 self.mouseoverInstanceId(resourceinstanceid);
             };
         },
 
         mouseoverThumbnail: function (_data, event) {
             const largeThumbnail = event.currentTarget.nextElementSibling;
-            largeThumbnail.style.display = "block";
+            largeThumbnail.style.display = 'block';
 
             const rect = largeThumbnail.getBoundingClientRect();
             if (rect.bottom > window.innerHeight) {
                 largeThumbnail.style.top =
-                    window.innerHeight - rect.height - 60 + "px";
+                    window.innerHeight - rect.height - 60 + 'px';
             }
         },
 
         mouseoutThumbnail: function (_data, event) {
-            event.currentTarget.nextElementSibling.style.display = "none";
+            event.currentTarget.nextElementSibling.style.display = 'none';
         },
 
         showRelatedResources: function () {
@@ -96,10 +96,10 @@ export default ko.components.register(componentName, {
                     }
                 }
                 self.showRelationships(resourceinstance);
-                if (self.selectedTab() !== "related-resources-filter-type") {
-                    self.selectedTab("related-resources-filter-type");
+                if (self.selectedTab() !== 'related-resources-filter-type') {
+                    self.selectedTab('related-resources-filter-type');
                 }
-                self.shiftFocus("#related-resources-filter-type-tabpanel");
+                self.shiftFocus('#related-resources-filter-type-tabpanel');
             };
         },
 
@@ -136,23 +136,25 @@ export default ko.components.register(componentName, {
                         Object.keys(resp).forEach(function (resourceId) {
                             instanceCache[resourceId] = _.extend(
                                 resp[resourceId],
-                                { tiles: result._source.tiles },
+                                {
+                                    tiles: result._source.tiles,
+                                },
                             );
                         });
 
                         reportDataLoaded(true);
-                        self.shiftFocus(".resource-report");
+                        self.shiftFocus('.resource-report');
                         self.bulkDisambiguatedResourceInstanceCache(
                             instanceCache,
                         );
                     });
                 } else {
                     reportDataLoaded(true);
-                    self.shiftFocus(".resource-report");
+                    self.shiftFocus('.resource-report');
                 }
 
-                if (self.selectedTab() !== "search-result-details-type") {
-                    self.selectedTab("search-result-details-type");
+                if (self.selectedTab() !== 'search-result-details-type') {
+                    self.selectedTab('search-result-details-type');
                 }
             };
         },
@@ -178,7 +180,7 @@ export default ko.components.register(componentName, {
                         acc,
                         hit,
                     ) {
-                        var graphId = hit["_source"]["graph_id"];
+                        var graphId = hit['_source']['graph_id'];
 
                         if (!ko.unwrap(self.bulkResourceReportCache)[graphId]) {
                             acc.push(graphId);
@@ -204,7 +206,7 @@ export default ko.components.register(componentName, {
                                     data: graphData.graph,
                                     datatypes: graphData.datatypes,
                                 });
-                                graphData["graphModel"] = graphModel;
+                                graphData['graphModel'] = graphModel;
                             }
 
                             bulkResourceReportCache[graphId] = graphData;
@@ -219,7 +221,7 @@ export default ko.components.register(componentName, {
                         acc,
                         hit,
                     ) {
-                        var resourceId = hit["_source"]["resourceinstanceid"];
+                        var resourceId = hit['_source']['resourceinstanceid'];
 
                         if (
                             !ko.unwrap(
@@ -250,9 +252,9 @@ export default ko.components.register(componentName, {
 
                     const thumbnailUrl = `/thumbnail/${result._source.resourceinstanceid}`;
                     const thumbnailResponse =
-                        arches.searchThumbnails == "True"
+                        arches.searchThumbnails == 'True'
                             ? await fetch(thumbnailUrl, {
-                                  method: "HEAD",
+                                  method: 'HEAD',
                               })
                             : undefined;
                     const thumbnail =
@@ -274,7 +276,7 @@ export default ko.components.register(componentName, {
                         geometries: ko.observableArray(
                             result._source.geometries,
                         ),
-                        iconclass: graphdata ? graphdata.iconclass : "",
+                        iconclass: graphdata ? graphdata.iconclass : '',
                         showrelated: this.showRelatedResources(
                             result._source.resourceinstanceid,
                         ),
@@ -296,13 +298,13 @@ export default ko.components.register(componentName, {
                             self.selectedResourceId(
                                 result._source.resourceinstanceid,
                             );
-                            if (self.selectedTab() !== "map-filter-type") {
-                                self.selectedTab("map-filter-type");
+                            if (self.selectedTab() !== 'map-filter-type') {
+                                self.selectedTab('map-filter-type');
                             }
                             self.mapLinkData({
                                 properties: result._source,
                             });
-                            self.shiftFocus("canvas.mapboxgl-canvas");
+                            self.shiftFocus('canvas.mapboxgl-canvas');
                         },
                         selected: ko.computed(function () {
                             return (
@@ -310,9 +312,9 @@ export default ko.components.register(componentName, {
                                 ko.unwrap(self.selectedResourceId)
                             );
                         }),
-                        isPrincipal: result["is_principal"],
-                        canRead: result["can_read"],
-                        canEdit: result["can_edit"],
+                        isPrincipal: result['is_principal'],
+                        canRead: result['can_read'],
+                        canEdit: result['can_edit'],
                         // can_delete: result._source.permissions.users_without_delete_perm.indexOf(this.userid) < 0,
                     });
                 }, this);
@@ -341,7 +343,7 @@ export default ko.components.register(componentName, {
 
         zoomToFeature: function (evt) {
             var data = $(evt.currentTarget).data();
-            this.trigger("find_on_map", data.resourceid, data);
+            this.trigger('find_on_map', data.resourceid, data);
         },
     }),
     template: searchResultsTemplate,

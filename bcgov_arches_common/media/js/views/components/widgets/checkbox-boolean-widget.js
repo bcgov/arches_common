@@ -1,7 +1,7 @@
-import _ from "underscore";
-import ko from "knockout";
-import BooleanCheckboxWidgetViewModel from "viewmodels/checkbox-boolean-widget";
-import checkboxBooleanWidgetTemplate from "templates/views/components/widgets/checkbox-boolean.htm";
+import _ from 'underscore';
+import ko from 'knockout';
+import BooleanCheckboxWidgetViewModel from 'viewmodels/checkbox-boolean-widget';
+import checkboxBooleanWidgetTemplate from 'templates/views/components/widgets/checkbox-boolean.htm';
 /**
  * knockout components namespace used in arches
  * @external "ko.components"
@@ -19,7 +19,7 @@ import checkboxBooleanWidgetTemplate from "templates/views/components/widgets/ch
  */
 
 const viewModel = function (params) {
-    params.configKeys = ["defaultValue" /*, 'trueLabel', 'falseLabel'*/];
+    params.configKeys = ['defaultValue' /*, 'trueLabel', 'falseLabel'*/];
 
     BooleanCheckboxWidgetViewModel.apply(this, [params]);
     var self = this;
@@ -56,15 +56,15 @@ const viewModel = function (params) {
     }
     if (
         this.tile &&
-        ko.unwrap(this.tile.tileid) === "" &&
+        ko.unwrap(this.tile.tileid) === '' &&
         defaultValue != null &&
-        defaultValue !== ""
+        defaultValue !== ''
     ) {
         this.value(defaultValue);
     }
 };
 
-export default ko.components.register("checkbox-boolean-widget", {
+export default ko.components.register('checkbox-boolean-widget', {
     viewModel: viewModel,
     template: checkboxBooleanWidgetTemplate,
 });
