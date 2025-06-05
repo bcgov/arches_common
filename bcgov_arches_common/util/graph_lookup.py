@@ -22,7 +22,9 @@ class GraphLookup:
             self._datatype_factory = DataTypeFactory()
             for alias in self._node_aliases:
                 node = models.Node.objects.filter(
-                    alias=alias, graph__slug=self._graph_slug
+                    alias=alias,
+                    graph__slug=self._graph_slug,
+                    source_identifier__isnull=True,
                 ).first()
                 if node:
                     self._nodes[alias] = node
